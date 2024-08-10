@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render
 from rest_framework import viewsets
 
@@ -70,6 +72,20 @@ class AstronomyShowViewSet(viewsets.ModelViewSet):
 class ShowSessionViewSet(viewsets.ModelViewSet):
     queryset = ShowSession.objects.select_related("astronomy_show", "planetarium_dome")
     serializer_class = ShowSessionSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        date = self.request.query_params.get("date")
+        astronomy_show_id = self.request.query_params.get("astronomy_show")
+
+        if date:
+            date = datetime.strptime(date, "%Y-%m-%d").date()
+            queryset = queryset.filter(show_time__date=date)
+
+        if astronomy_show_id:
+            queryset = queryset.filter(astronomy_show_id=int(astronomy_show_id))
+
+        return queryset
 
     def get_serializer_class(self):
         if self.action == "list":
