@@ -67,7 +67,7 @@ class ShowSessionListSerializer(ShowSessionSerializer):
     planetarium_dome_capacity = serializers.IntegerField(
         source="planetarium_dome.capacity", read_only=True
     )
-    # # tickets_available = serializers.IntegerField()
+    tickets_available = serializers.IntegerField(read_only=True)
     # astronomy_show_image = serializers.ImageField(
     #     source="astronomy_show.image", read_only=True
     # )
@@ -81,7 +81,7 @@ class ShowSessionListSerializer(ShowSessionSerializer):
             "planetarium_dome_name",
             "planetarium_dome_capacity",
             "show_time",
-            # "tickets_available"
+            "tickets_available",
         )
 
 

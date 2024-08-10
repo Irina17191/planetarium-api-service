@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.db.models import F, Count
 from django.shortcuts import render
 from rest_framework import viewsets
 
@@ -84,6 +85,13 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
 
         if astronomy_show_id:
             queryset = queryset.filter(astronomy_show_id=int(astronomy_show_id))
+
+        if self.action == "list":
+            queryset = queryset.annotate(
+                tickets_available=F("planetarium_dome__rows")
+                * F("planetarium_dome__seats_in_row")
+                - Count("tickets")
+            )
 
         return queryset
 
