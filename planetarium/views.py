@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db.models import F, Count
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
 
 from planetarium.models import (
     PlanetariumDome,
@@ -103,12 +104,18 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
 
+class OrderPagination(PageNumberPagination):
+    page_size = 10
+    max_page_size = 100
+
+
 class ReservationViewSet(viewsets.ModelViewSet):
     queryset = Reservation.objects.prefetch_related(
         "tickets__show_session__astronomy_show",
         "tickets__show_session__planetarium_dome",
     )
     serializer_class = ReservationSerializer
+    pagination_class = OrderPagination
 
     # def get_queryset(self):
     #     if self.action == "retrieve":
