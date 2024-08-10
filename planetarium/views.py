@@ -70,7 +70,13 @@ class ReservationViewSet(viewsets.ModelViewSet):
     #         return Reservation.objects.prefetch_related("tickets")
     #     return self.queryset
 
+    def get_queryset(self):
+        return self.queryset.filter(user=self.queryset.user)
+
     def get_serializer_class(self):
         if self.action == "list":
             return ReservationListSerializer
         return self.serializer_class
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
