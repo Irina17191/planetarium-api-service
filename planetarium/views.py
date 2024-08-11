@@ -2,6 +2,8 @@ from datetime import datetime
 
 from django.db.models import F, Count
 from django.shortcuts import render
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
@@ -78,6 +80,23 @@ class AstronomyShowViewSet(viewsets.ModelViewSet):
             return AstronomyShowDetailSerializer
         return self.serializer_class
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "show_themes",
+                type={"type": "list", "items": {"type": "number"}},
+                description="Filter by show themes id (ex. ?show_themes=2,5)",
+            ),
+            OpenApiParameter(
+                "title",
+                type=OpenApiTypes.STR,
+                description="Filter astronomy show by title (ex. ?title=stars)",
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 class ShowSessionViewSet(viewsets.ModelViewSet):
     queryset = ShowSession.objects.select_related("astronomy_show", "planetarium_dome")
@@ -112,6 +131,25 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
         if self.action == "retrieve":
             return ShowSessionDetailSerializer
         return self.serializer_class
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "astronomy_show",
+                type=OpenApiTypes.INT,
+                description="Filter by astronomy show id (ex. ?astronomy_show=2)",
+            ),
+            OpenApiParameter(
+                "date",
+                type=OpenApiTypes.DATE,
+                description=(
+                    "Filter by datetime of ShowSession " "(ex. ?date=2022-10-23)"
+                ),
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class ReservationPagination(PageNumberPagination):
