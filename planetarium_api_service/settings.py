@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "rest_framework.authtoken",
     "rest_framework",
+    "drf_spectacular",
     "planetarium",
     "user",
 ]
@@ -134,6 +135,20 @@ INTERNAL_IPS = [
 ]
 
 REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 8,
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Planetarium Service API",
+    "DESCRIPTION": "Order planetarium tickets",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "defaultModelRendering": "model",
+        "defaultModelsExpandDepth": 2,
+        "defaultModelExpandDepth": 2,
+    },
 }
