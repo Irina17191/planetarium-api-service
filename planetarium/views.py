@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from django.db.models import F, Count
-from django.shortcuts import render
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import viewsets
@@ -167,11 +166,6 @@ class ReservationViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
     http_method_names = ["get", "post"]
-
-    # def get_queryset(self):
-    #     if self.action == "retrieve":
-    #         return Reservation.objects.prefetch_related("tickets")
-    #     return self.queryset
 
     def get_queryset(self):
         return Reservation.objects.filter(user=self.request.user)

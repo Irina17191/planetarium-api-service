@@ -1,5 +1,4 @@
 from django.core.exceptions import ValidationError
-from django.db import models
 from django.conf import settings
 from django.db import models
 
@@ -38,7 +37,6 @@ class AstronomyShow(models.Model):
         null=True,
         related_name="astronomy_shows"
     )
-    # image = models.ImageField(null=True, upload_to=movie_image_file_path)
 
     def __str__(self):
         return self.title
