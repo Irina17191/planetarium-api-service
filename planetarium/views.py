@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db.models import F, Count
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
 
 from planetarium.models import (
@@ -13,6 +14,7 @@ from planetarium.models import (
     Reservation,
     Ticket,
 )
+from planetarium.permissions import IsAdminAllOrIsAuthenticatedReadOnly
 
 from planetarium.serializers import (
     PlanetariumDomeSerializer,
@@ -31,16 +33,22 @@ from planetarium.serializers import (
 class ShowThemeViewSet(viewsets.ModelViewSet):
     queryset = ShowTheme.objects.all()
     serializer_class = ShowThemeSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
 
 
 class PlanetariumDomeViewSet(viewsets.ModelViewSet):
     queryset = PlanetariumDome.objects.all()
     serializer_class = PlanetariumDomeSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
 
 
 class AstronomyShowViewSet(viewsets.ModelViewSet):
     queryset = AstronomyShow.objects.prefetch_related("description")
     serializer_class = AstronomyShowSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
 
     @staticmethod
     def _params_to_ints(qs):
@@ -74,6 +82,8 @@ class AstronomyShowViewSet(viewsets.ModelViewSet):
 class ShowSessionViewSet(viewsets.ModelViewSet):
     queryset = ShowSession.objects.select_related("astronomy_show", "planetarium_dome")
     serializer_class = ShowSessionSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
 
     def get_queryset(self):
         queryset = self.queryset
@@ -116,6 +126,9 @@ class ReservationViewSet(viewsets.ModelViewSet):
     )
     serializer_class = ReservationSerializer
     pagination_class = ReservationPagination
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
+    http_method_names = ["get", "post"]
 
     # def get_queryset(self):
     #     if self.action == "retrieve":
