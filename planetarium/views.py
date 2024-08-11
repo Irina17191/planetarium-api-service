@@ -104,7 +104,7 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
 
-class OrderPagination(PageNumberPagination):
+class ReservationPagination(PageNumberPagination):
     page_size = 10
     max_page_size = 100
 
@@ -115,7 +115,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
         "tickets__show_session__planetarium_dome",
     )
     serializer_class = ReservationSerializer
-    pagination_class = OrderPagination
+    pagination_class = ReservationPagination
 
     # def get_queryset(self):
     #     if self.action == "retrieve":
