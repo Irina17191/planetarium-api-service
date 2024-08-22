@@ -13,10 +13,8 @@ from planetarium.models import (
     AstronomyShow,
     ShowSession,
     Reservation,
-    Ticket,
 )
 from planetarium.permissions import IsAdminAllOrIsAuthenticatedReadOnly
-
 from planetarium.serializers import (
     PlanetariumDomeSerializer,
     ShowThemeSerializer,
