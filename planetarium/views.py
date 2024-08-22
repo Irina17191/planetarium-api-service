@@ -32,21 +32,18 @@ from planetarium.serializers import (
 class ShowThemeViewSet(viewsets.ModelViewSet):
     queryset = ShowTheme.objects.all()
     serializer_class = ShowThemeSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
 
 
 class PlanetariumDomeViewSet(viewsets.ModelViewSet):
     queryset = PlanetariumDome.objects.all()
     serializer_class = PlanetariumDomeSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
 
 
 class AstronomyShowViewSet(viewsets.ModelViewSet):
     queryset = AstronomyShow.objects.prefetch_related("description")
     serializer_class = AstronomyShowSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
 
     @staticmethod
@@ -98,7 +95,6 @@ class AstronomyShowViewSet(viewsets.ModelViewSet):
 class ShowSessionViewSet(viewsets.ModelViewSet):
     queryset = ShowSession.objects.select_related("astronomy_show", "planetarium_dome")
     serializer_class = ShowSessionSerializer
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
 
     def get_queryset(self):
@@ -161,7 +157,6 @@ class ReservationViewSet(viewsets.ModelViewSet):
     )
     serializer_class = ReservationSerializer
     pagination_class = ReservationPagination
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminAllOrIsAuthenticatedReadOnly,)
     http_method_names = ["get", "post"]
 
