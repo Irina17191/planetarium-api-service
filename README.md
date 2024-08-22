@@ -77,6 +77,7 @@ Get access token via /api/user/login/
 
 
 Credentials to get access:  
+
 Username: admin  
 Email address: admin@admin.com  
 Password: 12345Adminpassword
@@ -95,3 +96,11 @@ GET /api/schema/swagger-ui/
 
 - ReDoc:  
 GET /api/schema/redoc/  
+
+
+Here is a screenshots of the application:  
+![Application Screenshot](images/1.png)  
+
+![Application Screenshot](images/2.png)  
+
+![Application Screenshot](images/3.png)
